@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectedPostById, updatePost, deletePost } from './postsSlice';
+import { selectPostById, updatePost, deletePost } from './postsSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { selectAllUsers } from '../users/userSlice';
@@ -9,7 +9,7 @@ const EditPostForm = () => {
 	const { postId } = useParams();
 	const navigate = useNavigate();
 
-	const post = useSelector((state) => selectedPostById(state, Number(postId)));
+	const post = useSelector((state) => selectPostById(state, Number(postId)));
 	const user = useSelector(selectAllUsers);
 
 	const [title, setTitle] = useState(post?.title);
@@ -27,7 +27,7 @@ const EditPostForm = () => {
 	}
 	const onTitleChanged = (e) => setTitle(e.target.value);
 	const onContentChanged = (e) => setContent(e.target.value);
-	const onAuthorChanged = (e) => setUserId(e.target.value);
+	const onAuthorChanged = (e) => setUserId(Number(e.target.value));
 
 	const canSave =
 		[title, content, userId].every(Boolean) && requestStatus === 'idle';
@@ -48,7 +48,7 @@ const EditPostForm = () => {
 				setTitle('');
 				setContent('');
 				setUserId('');
-				navigate(`/post/${postId}`);
+				navigate(`/Blog/post/${postId}`);
 			} catch (err) {
 				console.error('Failed to save the post', err);
 			} finally {
@@ -70,7 +70,7 @@ const EditPostForm = () => {
 			setTitle('');
 			setContent('');
 			setUserId('');
-			navigate(`/`);
+			navigate(`/Blog`);
 		} catch (err) {
 			console.error('Failed to delete the post', err);
 		} finally {

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { selectedPostById } from './postsSlice';
+import { selectPostById } from './postsSlice';
 import { Link } from 'react-router-dom';
 
 import PostAuthor from './PostAuthor';
@@ -10,7 +10,7 @@ import ReactionButtons from './ReactionButtons';
 export const SinglePostPage = () => {
 	const { postId } = useParams();
 
-	const post = useSelector((state) => selectedPostById(state, Number(postId)));
+	const post = useSelector((state) => selectPostById(state, Number(postId)));
 
 	if (!post) {
 		return (
@@ -25,7 +25,7 @@ export const SinglePostPage = () => {
 			<h2>{post.title}</h2>
 			<p>{post.body}</p>
 			<p className='postCredit'>
-				<Link to={`/post/edit/${post.id}`}>Edit Post</Link>
+				<Link to={`/Blog/post/edit/${post.id}`}>Edit Post</Link>
 				<PostAuthor userId={post.userId} />
 				<TimeAgo timestamp={post.date} />
 			</p>
